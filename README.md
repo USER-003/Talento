@@ -6,15 +6,6 @@
 
 Talento es una plataforma digital que conecta a proveedores de servicios con clientes. Ofrece una interfaz segura y fácil de usar para explorar servicios, acceder a perfiles de proveedores y comunicarse directamente. Talento facilita la búsqueda y contratación de servicios profesionales, creando un entorno colaborativo y transparente para todos los usuarios.
 
-## Dev Team
-
--   JEFFERSON JOSUÉ ESPERANZA ORTIZ - SMSS132422
--   SOFÍA MARGARITA ROMERO RODRIGUEZ - SMSS042622
--   ÁNGEL JOSUÉ GUEVARA PORTILLO - SMSS015622
--   GERSON NAHUM ARGUETA HERNANDES- SMSS021722
--   EDWIN ALEXANDER VILLALTA ORTIZ - SMSS022022
--   CÉSAR ALEXANDER ROMERO VAZQUES - SMSS078821
-
 ## Tecnologias
 
 -   PHP (Versión 8.2.12)
