@@ -3,13 +3,17 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Talento</title>
+    <title>@yield('title', 'Talento')</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    @auth
+    <meta name="user-id" content="{{ auth()->user()->id_usuario }}">
+    @endauth
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="img/favicon.png">
+    <link rel="icon" type="image/png" href="{{ asset('img/favicon.png') }}">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -18,12 +22,20 @@
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <!-- Libraries Stylesheet -->
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <link href="{{ asset('lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    
+    <!-- Chat System Styles -->
+    <link href="{{ asset('css/chat.css') }}" rel="stylesheet">
+    
+    @stack('styles')
 </head>
 
 <body>
@@ -65,21 +77,21 @@
             <a href="{{route('inicio')}}" class="navbar-brand">
                 <h1 class="m-0 text-primary"><span class="text-dark">TALEN</span>TO</h1>
             </a>
-            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-between px-3" id="navbarCollapse">
                 <div class="navbar-nav ml-auto py-0">
                     <a href="{{route('#inicio')}}" class="nav-item nav-link active">Inicio</a>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Nosotros</a>
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Nosotros</a>
                         <div class="dropdown-menu border-0 rounded-0 m-0">
                             <a href="{{route('nosotros')}}" class="dropdown-item">¿Quienes somos?'</a>
                             <a href="{{route('testimonios')}}" class="dropdown-item">Testimonios</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Explorar</a>
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Explorar</a>
                         <div class="dropdown-menu border-0 rounded-0 m-0">
                             <a href="{{route('todos')}}" class="dropdown-item">Todos</a>
                             <a href="{{route('tech')}}" class="dropdown-item">Tecnologia</a>
@@ -89,12 +101,16 @@
                         </div>
                     </div>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link " data-toggle="dropdown">
+                        <a href="#" class="nav-link " data-bs-toggle="dropdown">
                         <i class="fas fa-user-circle"></i>
                         </a>
                         <div class="dropdown-menu border-0 rounded-0 m-0">
                             @if(Auth::check())
                                 <a href="{{ route('servicio.index') }}" class="dropdown-item">Mis servicios</a>
+                                <a href="{{ route('chat.index') }}" class="dropdown-item">
+                                    <i class="fas fa-comments me-2"></i>
+                                    Mis Chats
+                                </a>
                                 <a href="{{ route('logout') }}" class="dropdown-item">Cerrar Sesión</a>
                             @else
                                 <a href="{{ route('register') }}" class="dropdown-item">Registrarse</a>
@@ -130,21 +146,45 @@
     <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
+    <!-- Quick Chat Component -->
+    @auth
+    @include('components.quick-chat')
+    @endauth
+
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="lib/tempusdominus/js/moment.min.js"></script>
-    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
-    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('lib/easing/easing.min.js') }}"></script>
+    <script src="{{ asset('lib/owlcarousel/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('lib/tempusdominus/js/moment.min.js') }}"></script>
+    <script src="{{ asset('lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
+    <script src="{{ asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 
     <!-- Contact Javascript File -->
-    <script src="mail/jqBootstrapValidation.min.js"></script>
-    <script src="mail/contact.js"></script>
+    <script src="{{ asset('mail/jqBootstrapValidation.min.js') }}"></script>
+    <script src="{{ asset('mail/contact.js') }}"></script>
 
     <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
+    
+    <!-- Quick Chat System -->
+    @auth
+    <!-- Pusher Configuration -->
+    <script>
+        window.pusherConfig = {
+            key: '{{ config("broadcasting.connections.pusher.key") }}',
+            cluster: '{{ config("broadcasting.connections.pusher.options.cluster") }}'
+        };
+    </script>
+    
+    <!-- Pusher JS -->
+    <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
+    
+    <!-- Quick Chat JS -->
+    <script src="{{ asset('js/quick-chat.js') }}"></script>
+    @endauth
+    
+    @stack('scripts')
 </body>
 
 </html>
