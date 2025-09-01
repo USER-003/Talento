@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Conversation;
 use App\Models\Message;
 use App\Models\Usuario;
+use App\Models\Invoice;
 use App\Models\BlockedUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -301,7 +302,15 @@ class ChatController extends Controller
     public function getConversations()
     {
         $user = Auth::user();
-        
+
+        // Preload pending invoice totals grouped by client for the provider (current user)
+        $pendingByClient = Invoice::selectRaw('client_id, SUM(amount) as total, MIN(currency) as currency, COUNT(*) as count')
+            ->where('provider_id', $user->id_usuario)
+            ->where('status', 'pending')
+            ->groupBy('client_id')
+            ->get()
+            ->keyBy('client_id');
+
         $conversations = Conversation::where('user_one', $user->id_usuario)
             ->orWhere('user_two', $user->id_usuario)
             ->with(['userOne', 'userTwo'])
@@ -313,9 +322,10 @@ class ChatController extends Controller
             ])
             ->orderBy('last_message_at', 'desc')
             ->get()
-            ->map(function ($conversation) use ($user) {
+            ->map(function ($conversation) use ($user, $pendingByClient) {
                 $otherUser = $conversation->getOtherUser($user->id_usuario);
                 $latestMessage = $conversation->messages()->latest()->first();
+                $pending = $pendingByClient->get($otherUser->id_usuario);
                 
                 return [
                     'id' => $conversation->id,
@@ -333,7 +343,10 @@ class ChatController extends Controller
                     ] : null,
                     'unread_count' => $conversation->unread_count,
                     'is_blocked' => $conversation->is_blocked,
-                    'blocked_by_me' => $conversation->blocked_by === $user->id_usuario
+                    'blocked_by_me' => $conversation->blocked_by === $user->id_usuario,
+                    'pending_total' => $pending ? (float) $pending->total : 0.0,
+                    'pending_currency' => $pending ? $pending->currency : null,
+                    'pending_count' => $pending ? (int) $pending->count : 0
                 ];
             });
 

@@ -67,6 +67,11 @@
                             <i class="fas fa-comments me-1"></i>Chat
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('invoices.index') }}">
+                            <i class="fas fa-file-invoice-dollar me-1"></i>Ingresos
+                        </a>
+                    </li>
                     @endauth
                 </ul>
                 

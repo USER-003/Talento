@@ -111,6 +111,10 @@
                                     <i class="fas fa-comments me-2"></i>
                                     Mis Chats
                                 </a>
+                                <a href="{{ route('invoices.index') }}" class="dropdown-item">
+                                    <i class="fas fa-file-invoice-dollar me-2"></i>
+                                    Ingresos
+                                </a>
                                 <a href="{{ route('logout') }}" class="dropdown-item">Cerrar Sesión</a>
                             @else
                                 <a href="{{ route('register') }}" class="dropdown-item">Registrarse</a>

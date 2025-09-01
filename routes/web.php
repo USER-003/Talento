@@ -5,6 +5,7 @@ use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\CategoriaDeServicioController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Middleware\AuthM;
 
 
@@ -48,6 +49,13 @@ Route::middleware(AuthM::class)->group(function(){
     // API routes for AJAX
     Route::get('api/conversations', [ChatController::class, 'getConversations'])->name('chat.conversations');
     Route::get('api/messages/{userId}', [ChatController::class, 'getMessages'])->name('chat.messages');
+
+    // Invoices (Ingresos)
+    Route::get('ingresos', [InvoiceController::class, 'index'])->name('invoices.index');
+    Route::get('ingresos/crear', [InvoiceController::class, 'create'])->name('invoices.create');
+    Route::post('ingresos', [InvoiceController::class, 'store'])->name('invoices.store');
+    Route::get('ingresos/{invoice}', [InvoiceController::class, 'show'])->name('invoices.show');
+    Route::post('ingresos/{invoice}/pagar', [InvoiceController::class, 'pay'])->name('invoices.pay');
 });
 
 // Routes auth

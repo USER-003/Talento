@@ -64,6 +64,11 @@
                             <i class="fas fa-ellipsis-v"></i>
                         </button>
                         <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="{{ route('invoices.create', ['client_id' => $otherUser->id_usuario]) }}">
+                                    <i class="fas fa-file-invoice-dollar me-2"></i>Facturar
+                                </a>
+                            </li>
                             @if($conversation->is_blocked)
                                 @if($conversation->blocked_by === auth()->user()->id_usuario)
                                     <li><a class="dropdown-item text-success" href="#" id="unblock-user-btn">
@@ -112,7 +117,7 @@
                 <div class="border-top p-3 bg-white">
                     <form id="message-form" class="d-flex">
                         <input type="hidden" id="conversation-id" value="{{ $conversation->id }}">
-                        <input type="text" id="message-input" class="form-control me-2" 
+                        <input type="text" id="message-input" class="form-control me-2"
                                placeholder="Escribe tu mensaje..." maxlength="1000" required
                                {{ $conversation->is_blocked ? 'disabled' : '' }}>
                         <button type="submit" class="btn btn-primary" {{ $conversation->is_blocked ? 'disabled' : '' }}>
@@ -252,11 +257,11 @@
     .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
     
     @keyframes typing {
-        0%, 80%, 100% { 
+    0%, 80%, 100% {
             transform: scale(0.8);
             opacity: 0.5;
         }
-        40% { 
+    40% {
             transform: scale(1);
             opacity: 1;
         }
@@ -532,11 +537,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         `<span class="badge bg-danger rounded-pill">${conversation.unread_count}</span>` : '';
                     
                     const conversationHtml = `
-                        <div class="conversation-item border-bottom p-3 ${isActive ? 'active' : ''}" 
+                        <div class="conversation-item border-bottom p-3 ${isActive ? 'active' : ''}"
                              onclick="window.location.href='/chat/${conversation.other_user.id}'">
                             <div class="d-flex align-items-center">
                                 <div class="position-relative me-3">
-                                    <img src="${conversation.other_user.avatar}" alt="${conversation.other_user.name}" 
+                                    <img src="${conversation.other_user.avatar}" alt="${conversation.other_user.name}"
                                          class="rounded-circle" width="40" height="40">
                                     ${conversation.other_user.is_online ? '<div class="online-indicator"></div>' : ''}
                                 </div>
