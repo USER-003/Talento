@@ -100,11 +100,32 @@
                     </div>
 
 
-                    <!-- Category List -->
+                    <!-- Contact Provider -->
                     <div class="mb-5">
                         <div class="bg-white" style="padding: 30px;">
+                            <div class="text-center mb-3">
+                                <h5>¿Interesado en este servicio?</h5>
+                                <p class="text-muted">Contacta directamente con {{ $usuario->nombre }}</p>
+                            </div>
                             <div class="d-grid gap-2 text-center">
-                                <button class="btn btn-outline-danger btn-lg" disabled>Contáctame</button>
+                                @auth
+                                    @if(auth()->user()->id_usuario !== $usuario->id_usuario)
+                                        <a href="{{ route('chat.show', $usuario->id_usuario) }}" class="btn btn-primary btn-lg">
+                                            <i class="fas fa-comment-dots me-2"></i>
+                                            Contáctame
+                                        </a>
+                                    @else
+                                        <button class="btn btn-outline-secondary btn-lg" disabled>
+                                            <i class="fas fa-user me-2"></i>
+                                            Este es tu servicio
+                                        </button>
+                                    @endif
+                                @else
+                                    <a href="{{ route('login') }}" class="btn btn-primary btn-lg">
+                                        <i class="fas fa-sign-in-alt me-2"></i>
+                                        Inicia sesión para contactar
+                                    </a>
+                                @endauth
                             </div>
                         </div>
                     </div>
