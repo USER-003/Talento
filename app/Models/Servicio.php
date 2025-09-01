@@ -23,4 +23,15 @@ class Servicio extends Model
     {
         return $this->belongsTo(Usuario::class, 'id_usuario');
     }
+
+    public function comentarios()
+    {
+        return $this->hasMany(Comentario::class, 'servicio_id', 'id_servicios_personales')->latest();
+    }
+
+    public function averageRating(): float
+    {
+        $avg = $this->comentarios()->avg('rating');
+        return $avg ? round((float) $avg, 1) : 0.0;
+    }
 }

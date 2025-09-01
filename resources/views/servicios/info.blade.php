@@ -43,38 +43,87 @@
                             <h4 class="mb-3">Precio</h4>
                             <p>${{ $servicio->precio }}</p>
 
+                            <div class="d-flex align-items-center mt-3">
+                                <strong class="me-2">Calificación promedio:</strong>
+                                @php $avg = $promedio ?? $servicio->averageRating(); @endphp
+                                <div>
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        @if ($i <= floor($avg))
+                                            <i class="fas fa-star text-warning"></i>
+                                        @elseif ($i - $avg < 1)
+                                            <i class="fas fa-star-half-alt text-warning"></i>
+                                        @else
+                                            <i class="far fa-star text-warning"></i>
+                                        @endif
+                                    @endfor
+                                    <small class="text-muted">({{ number_format($avg, 1) }}/5)</small>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                     <!-- Blog Detail End -->
 
                     <!-- Comment List Start -->
                     <div class="bg-white" style="padding: 30px; margin-bottom: 30px;">
-                        <h4 class="text-uppercase mb-4" style="letter-spacing: 5px;">1 Comentarios</h4>
-                        <div class="media mb-4">
-                            <div class="media-body">
-                                <h6><a href="">Edwin Alexander Villalta</a> <small><i>01 Junio 2024</i></small></h6>
-                                <p>Es un buen Servicio</p>
-                                <button class="btn btn-sm btn-outline-primary" disabled>Responder</button>
+                        <h4 class="text-uppercase mb-4" style="letter-spacing: 5px;">Comentarios</h4>
+                        @forelse(($comentarios ?? []) as $c)
+                            <div class="media mb-4">
+                                <div class="media-body">
+                                    <h6>
+                                        <a href="#">{{ $c->usuario->nombre }}</a>
+                                        <small class="text-muted"><i>{{ $c->created_at->format('d M Y') }}</i></small>
+                                    </h6>
+                                    <div class="mb-1">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            <i class="{{ $i <= $c->rating ? 'fas' : 'far' }} fa-star text-warning"></i>
+                                        @endfor
+                                    </div>
+                                    <p class="mb-0">{{ $c->comentario }}</p>
+                                </div>
                             </div>
-                        </div>
-
+                        @empty
+                            <p class="text-muted mb-0">Sé el primero en comentar este servicio.</p>
+                        @endforelse
                     </div>
                     <!-- Comment List End -->
 
                     <!-- Comment Form Start -->
                     <div class="bg-white mb-3" style="padding: 30px;">
                         <h4 class="text-uppercase mb-4" style="letter-spacing: 5px;">Dejar un Comentario</h4>
-                        <form>
+                        @auth
+                            <form id="commentForm" action="{{ route('servicio.comentar', $servicio) }}" method="POST">
+                                @csrf
 
-                            <div class="form-group">
-                                <label for="message">Comentario *</label>
-                                <textarea id="message" cols="30" rows="5" class="form-control"></textarea>
-                            </div>
-                            <div class="form-group mb-0">
-                                <input type="submit" value="Dejar Comentario"
-                                    class="btn btn-primary font-weight-semi-bold py-2 px-3" disabled>
-                            </div>
-                        </form>
+                                <div class="form-group mb-3">
+                                    <span class="d-block mb-1">Tu calificación *</span>
+                                    <div class="rating mb-2" aria-label="Selecciona una calificación">
+                                        @for ($i = 5; $i >= 1; $i--)
+                                            <input type="radio" name="rating" id="rating{{ $i }}" value="{{ $i }}" {{ (old('rating') == $i) ? 'checked' : '' }}>
+                                            <label for="rating{{ $i }}" title="{{ $i }} estrellas">
+                                                <i class="fas fa-star"></i>
+                                            </label>
+                                        @endfor
+                                    </div>
+                                    @error('rating')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label for="message">Comentario *</label>
+                                    <textarea id="message" name="comentario" cols="30" rows="5" class="form-control" required>{{ old('comentario') }}</textarea>
+                                    @error('comentario')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                                <div class="form-group mb-0">
+                                    <button type="submit" class="btn btn-primary font-weight-semi-bold py-2 px-3">Guardar comentario</button>
+                                </div>
+                            </form>
+                        @else
+                            <p>Debes <a href="{{ route('login') }}">iniciar sesión</a> para comentar.</p>
+                        @endauth
                     </div>
                     <!-- Comment Form End -->
                 </div>
@@ -166,3 +215,53 @@
     <!-- Blog End -->
 
 @endsection
+
+@push('styles')
+<style>
+    /* Star rating styles */
+    .rating {
+        display: inline-flex;
+        flex-direction: row-reverse; /* Needed for sibling selector coloring */
+        gap: 6px;
+    }
+    .rating input {
+        position: absolute; /* Keep accessible but hidden */
+        left: -9999px;
+    }
+    .rating label {
+        cursor: pointer;
+        font-size: 1.6rem; /* ~fa-2x */
+        line-height: 1;
+        color: #d6d6d6; /* default (unselected) color */
+        transition: color .15s ease-in-out, transform .05s ease-in-out;
+    }
+    .rating label i { pointer-events: none; }
+    /* Hover effects */
+    .rating label:hover,
+    .rating label:hover ~ label { color: #f5c518; }
+    /* Selected state */
+    .rating input:checked ~ label { color: #f5c518; }
+    /* Small press feedback */
+    .rating input:focus + label { outline: 2px solid #80bdff; outline-offset: 2px; border-radius: 4px; }
+    .rating label:active { transform: scale(0.95); }
+</style>
+@endpush
+
+@push('scripts')
+<script>
+    // If redirected with success status, clear the form selections on page load
+    (function() {
+        const hasStatus = {!! session()->has('status') ? 'true' : 'false' !!};
+        if (hasStatus) {
+            const form = document.getElementById('commentForm');
+            if (form) {
+                // Clear radios
+                form.querySelectorAll('input[name="rating"]').forEach(r => r.checked = false);
+                // Clear textarea
+                const ta = form.querySelector('#message');
+                if (ta) ta.value = '';
+            }
+        }
+    })();
+</script>
+@endpush

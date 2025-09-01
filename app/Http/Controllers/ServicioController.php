@@ -6,6 +6,7 @@ use App\Models\Servicio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\CategoriasDeServicio;
+use App\Models\Comentario;
 
 
 
@@ -68,9 +69,7 @@ class ServicioController extends Controller
      */
     public function store(Request $request)
     {
-        $servicio = Servicio::create(
-            $request->all()
-        );
+    Servicio::create($request->all());
 
         return redirect()->route('servicio.index');
     }
@@ -96,7 +95,9 @@ class ServicioController extends Controller
         $usuario = $servicio->usuario;
         $categoria = $servicio->categoria;
         $servicios = Servicio::all();
-        return view('servicios.info', compact('servicio', 'usuario', 'categoria', 'servicios'));
+    $comentarios = $servicio->comentarios()->with('usuario')->get();
+    $promedio = $servicio->averageRating();
+    return view('servicios.info', compact('servicio', 'usuario', 'categoria', 'servicios', 'comentarios', 'promedio'));
     }
     
     public function update(Request $request, Servicio $servicio)
@@ -112,5 +113,26 @@ class ServicioController extends Controller
     {
         $servicio->delete();
         return back();
+    }
+
+    /**
+     * Store or update a comment for a service.
+     */
+    public function comentar(Request $request, Servicio $servicio)
+    {
+        $validated = $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'comentario' => 'required|string|max:2000',
+        ]);
+
+        $userId = Auth::user()->id_usuario;
+        Comentario::create([
+            'servicio_id' => $servicio->id_servicios_personales,
+            'id_usuario' => $userId,
+            'rating' => $validated['rating'],
+            'comentario' => $validated['comentario'],
+        ]);
+
+        return redirect()->route('servicio.info', $servicio)->with('status', 'Comentario guardado');
     }
 }

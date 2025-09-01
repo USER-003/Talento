@@ -33,6 +33,7 @@ Route::get('/#leyes')->name('leyes');
 //Route::get('/')
 Route::middleware(AuthM::class)->group(function(){
     Route::resource('servicio', ServicioController::class);
+    Route::post('informacion{servicio}/comentar', [ServicioController::class, 'comentar'])->name('servicio.comentar');
     
     // Chat routes
     Route::get('chat', [ChatController::class, 'index'])->name('chat.index');
