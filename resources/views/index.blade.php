@@ -12,7 +12,7 @@
                     <img class="w-100" src="img/carousel-1.jpg" alt="Image">
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         <div class="p-3" style="max-width: 900px;">
-                            <h4 class="text-white text-uppercase mb-md-3">TALENTO</h4>
+                            <h4 class="text-white text-uppercase mb-md-3">TALENTO express</h4>
                             <h1 class="display-3 text-white mb-md-4">Encuentra el servicio adecuado para ti</h1>
                             <a href="#explorar" class="btn btn-primary py-md-3 px-md-5 mt-2">Explorar</a>
                         </div>
@@ -61,10 +61,10 @@
                         <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Nosotros</h6>
                         <h1 class="mb-3">La Manera Simple y Segura de Encontrar y Ofrecer Servicios Profesionales.
                         </h1>
-                        <p>Talento es tu plataforma para encontrar y ofrecer servicios profesionales de manera fácil y
+                        <p>Talento Express es tu plataforma para encontrar y ofrecer servicios profesionales de manera fácil y
                             segura. Con una interfaz intuitiva, puedes explorar diversas categorías de servicios,
                             revisar perfiles detallados y comunicarte directamente con proveedores especializados para
-                            acordar los términos. Únete a Talento hoy y simplifica la manera en que contratas y ofreces
+                            acordar los términos. Únete a Talento Express hoy y simplifica la manera en que contratas y ofreces
                             servicios profesionales.</p>
                         <div class="row mb-4">
                             <div class="col-6">

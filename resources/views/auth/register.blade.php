@@ -47,6 +47,16 @@
 
               <!-- Password input -->
               <div data-mdb-input-init class="form-outline mb-4">
+              <!-- Términos y condiciones -->
+              <div class="form-check mb-4">
+                <input class="form-check-input" type="checkbox" id="terminos" name="terminos" required>
+                <label class="form-check-label" for="terminos">
+                  Acepto los <a href="#" data-bs-toggle="modal" data-bs-target="#modalTerminos" style="text-decoration: underline;">Términos y Condiciones</a>
+                </label>
+                @error('terminos')
+                  <div style="color: red;">{{ $message }}</div>
+                @enderror
+              </div>
                 <input type="password" id="password" class="form-control" name="password" required/>
                 <label class="form-label" for="form3Example4">Contraseña</label>
                 @error('password')
@@ -87,6 +97,44 @@
                         <i class="fab fa-github"></i>
                     </button>
                     <p>Ya tienes una cuenta? <a href="{{ route('login') }}" class="link-danger link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Iniciar Sesion</a></p>
+              <!-- Modal de Términos y Condiciones -->
+              <div class="modal fade" id="modalTerminos" tabindex="-1" aria-labelledby="modalTerminosLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title w-100 text-center" id="modalTerminosLabel">Términos y Condiciones de Talento</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body" style="max-height: 60vh; overflow-y: auto;">
+                      <div>
+                        <h6 class="text-center">1. Introducción</h6>
+                        <p class="text-start">Bienvenido a Talento, una plataforma que conecta personas para publicar y contratar servicios de manera rápida y segura. Al registrarte, aceptas los siguientes términos y condiciones.</p>
+                        <h6 class="text-center">2. Registro y Cuenta</h6>
+                        <p class="text-start">Debes proporcionar información veraz y mantener la confidencialidad de tus credenciales. Eres responsable de todas las actividades realizadas desde tu cuenta.</p>
+                        <h6 class="text-center">3. Publicación y Contratación de Servicios</h6>
+                        <p class="text-start">Los usuarios pueden publicar servicios o contratar a otros. Talento no se responsabiliza por la calidad, cumplimiento o resultados de los servicios ofrecidos, pero promueve la buena conducta y el respeto entre usuarios.</p>
+                        <h6 class="text-center">4. Pagos y Transacciones</h6>
+                        <p class="text-start">Los pagos se gestionan dentro de la plataforma. Talento actúa como intermediario y puede retener comisiones. Los pagos son procesados de acuerdo a las políticas de seguridad y protección al usuario.</p>
+                        <h6 class="text-center">5. Comentarios y Valoraciones</h6>
+                        <p class="text-start">Los usuarios pueden dejar comentarios y valoraciones sobre los servicios. Talento se reserva el derecho de eliminar contenido ofensivo, fraudulento o que no cumpla con las normas de la comunidad.</p>
+                        <h6 class="text-center">6. Chats y Comunicación</h6>
+                        <p class="text-start">La plataforma ofrece chat para facilitar la comunicación entre usuarios. Está prohibido el uso de lenguaje ofensivo, spam o cualquier conducta que afecte la experiencia de otros.</p>
+                        <h6 class="text-center">7. Prohibiciones</h6>
+                        <p class="text-start">No se permite la publicación de servicios ilegales, fraudulentos o que infrinjan derechos de terceros. Talento puede suspender o eliminar cuentas que incumplan estas reglas.</p>
+                        <h6 class="text-center">8. Responsabilidad</h6>
+                        <p class="text-start">Talento no se hace responsable por daños directos o indirectos derivados del uso de la plataforma. El usuario asume todos los riesgos relacionados con la contratación y prestación de servicios.</p>
+                        <h6 class="text-center">9. Modificaciones</h6>
+                        <p class="text-start">Talento puede modificar estos términos en cualquier momento. Se notificará a los usuarios sobre cambios importantes.</p>
+                        <h6 class="text-center">10. Contacto</h6>
+                        <p class="text-start">Para dudas o reclamos, puedes contactarnos a través de los medios oficiales indicados en la plataforma.</p>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
               </div>
             </form>
           </div>

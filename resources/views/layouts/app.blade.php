@@ -45,7 +45,7 @@
             <div class="row">
                 <div class="col-lg-6 text-center text-lg-left mb-2 mb-lg-0">
                     <div class="d-inline-flex align-items-center">
-                        <p><i class="fa fa-envelope mr-2"></i>info@talento.com</p>
+                        <p><i class="fa fa-envelope mr-2"></i>info@talentoexpress.com</p>
                         <p class="text-body px-3">|</p>
                         <p><i class="fa fa-phone-alt mr-2"></i>+503 6046 1315</p>
                     </div>
@@ -75,7 +75,7 @@
     <div class="container-lg position-relative p-0 px-lg-3" style="z-index: 9;">
         <nav class="navbar navbar-expand-lg bg-light navbar-light shadow-lg py-3 py-lg-0 pl-3 pl-lg-5">
             <a href="{{route('inicio')}}" class="navbar-brand">
-                <h1 class="m-0 text-primary"><span class="text-dark">TALEN</span>TO</h1>
+                <h1 class="m-0 text-primary"><span class="text-dark">TALENTO</span> EXPRESS</h1>
             </a>
             <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
@@ -135,12 +135,12 @@
         style="border-color: rgba(256, 256, 256, .1) !important;">
         <div class="row">
             <div class="col-lg-6 text-center text-md-left mb-3 mb-md-0">
-                <p class="m-0 text-white-50">Copyright &copy; <a href="#" style="color: white;">Talento</a>.
+                <p class="m-0 text-white-50">Copyright &copy; <a href="#" style="color: white;">Talento Express</a>.
                     All Rights Reserved.</a>
                 </p>
             </div>
             <div class="col-lg-6 text-center text-md-right">
-                <p class="m-0 text-white-50">Designed by Talento
+                <p class="m-0 text-white-50">Designed by Talento Express
                 </p>
             </div>
         </div>

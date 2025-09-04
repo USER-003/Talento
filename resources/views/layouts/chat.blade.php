@@ -42,7 +42,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
         <div class="container-fluid">
             <a class="navbar-brand text-primary" href="{{ route('inicio') }}">
-                <strong>TALEN</strong><span class="text-dark">TO</span>
+                <strong>Panel</strong><span class="text-dark"> Talento Express</span>
             </a>
             
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
